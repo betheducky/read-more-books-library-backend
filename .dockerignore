@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Composer / PHP
+vendor
+composer.lock
+
+# Laravel caches & storage
+bootstrap/cache
+storage
+
+# Env files (shouldn’t be copied to image — handled with secrets in Fly)
+.env
+.env.*
+
+# Docker/Fly files
+docker-compose*
+Dockerfile
+fly.toml
+
+# OS / IDE clutter
+.DS_Store
+*.swp
+*.swo
+*.bak
+*.tmp
+.idea
+.vscode
