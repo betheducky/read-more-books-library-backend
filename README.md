@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ReadMoreBooks Library API (Backend)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## Overview
+A RESTful backend API built with **Laravel 11** providing user authentication and persistent booklist storage for the ReadMoreBooks Library Angular app.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+- User registration and authentication via Laravel Sanctum
+- Persistent booklist storage per user
+- Locally stored booklist for guest users
+- SQLite database for lightweight deployment
+- CORS and CSRF protection configured for production
+- Deployed using Fly.io
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
+- **Framework:** Laravel 11
+- **Language:** PHP 8
+- **Database:** SQLite (temporary in-memory for Fly.io)
+- **Auth:** Laravel Sanctum
+- **Deployment:** Fly.io
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Local Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the repository
+```bash
+git clone https://github.com/betheducky/read-more-books-library-backend.git
+cd read-more-books-library-backend
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Install dependencies
+```bash
+composer install
+```
 
-## Laravel Sponsors
+### 3. Create and configure environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Update .env:
+```env
+APP_URL=http://localhost:8000  // your local backend development server (copy URL from #5)
+FRONTEND_URL=http://localhost:4200 // your local frontend development server
+SESSION_DRIVER=file
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
 
-### Premium Partners
+### 4. Run migrations
+```bash
+php artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 5. Start the API server
+```bash
+php artisan serve
+```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Deployment (Fly.io)
+The production API is hosted [here.](https://book-search-backend.fly.dev) Environment variables are configured through fly.toml.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## API Endpoints (Authenticated users only)
 
-## Security Vulnerabilities
+| Method   | Endpoint          | Description                 |
+| -------- | ----------------- | --------------------------- |
+| `POST`   | `/api/register`   | Register a new user         |
+| `POST`   | `/api/login`      | Log in and start a session  |
+| `GET`    | `/api/user`       | Get the authenticated user  |
+| `POST`   | `/api/logout`     | Log out the user            |
+| `GET`    | `/api/book-list`      | Get all saved books         |
+| `POST`   | `/api/book-list`      | Add a book to the list      |
+| `DELETE` | `/api/book-list/{id}` | Remove a book from the list |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Database
+This API uses SQLite for lightweight deployment.
+⚠️ PLEASE NOTE: Due to limited scope of project, volume storage is not persistent. This database is subject to reset when the backend is updated and redeployed, and stored data may be lost.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Roadmap (future updates and vision)
+- Implement request throttling
+- Enable password reset via email
+
