@@ -1,7 +1,5 @@
 # ReadMoreBooks Library API (Backend)
 
-\
-
 ## Overview
 A RESTful backend API built with **Laravel 11** providing user authentication and persistent booklist storage for the ReadMoreBooks Library Angular app.
 
